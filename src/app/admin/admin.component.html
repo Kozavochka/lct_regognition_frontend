@@ -1,0 +1,25 @@
+<div class="admin-header">
+  <h2>Админ панель</h2>
+  <button class="upload-btn" (click)="showModal = true">Создать пользователя</button>
+</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Имя пользователя</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<app-create-user-modal
+  *ngIf="showModal"
+  (close)="showModal = false"
+  (userCreated)="handleUserCreated($event)">
+</app-create-user-modal>

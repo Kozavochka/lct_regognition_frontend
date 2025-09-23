@@ -1,0 +1,26 @@
+<div class="recognition-header">
+  <h2>Распознавание зданий</h2>
+  <button class="upload-btn" (click)="showModal = true">Загрузить фотоматериалы</button>
+</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>№</th>
+      <th>Дата загрузки</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td>{{ row.id }}</td>
+      <td>{{ row.date }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Модалка -->
+<app-upload-modal
+  *ngIf="showModal"
+  (close)="showModal = false"
+  (fileReady)="handleFile($event)">
+</app-upload-modal>

@@ -1,0 +1,15 @@
+<div class="layout">
+  <header class="header">
+    <nav class="nav">
+      <a routerLink="/recognition" routerLinkActive="active">Распознавание зданий</a>
+      <span class="divider"></span>
+      <a routerLink="/admin" routerLinkActive="active">Админ панель</a>
+      <span class="divider"></span>
+      <a (click)="logout()">Выйти</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
