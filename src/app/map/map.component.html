@@ -1,0 +1,8 @@
+<div class="map-wrapper">
+  <div class="info-panel" *ngIf="selectedCoords">
+    <h3>Координаты</h3>
+    <p>Lat: {{ selectedCoords.lat.toFixed(5) }}</p>
+    <p>Lng: {{ selectedCoords.lng.toFixed(5) }}</p>
+  </div>
+  <div id="map"></div>
+</div>

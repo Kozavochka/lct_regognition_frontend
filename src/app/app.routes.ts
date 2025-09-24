@@ -3,6 +3,7 @@ import { LoginComponent } from './login/login';
 import { LayoutComponent } from './layout/layout.component';
 import { RecognitionComponent } from './recognition/recognition.component';
 import { AdminComponent } from './admin/admin.component';
+import {MapComponent} from './map/map.component'
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -12,7 +13,8 @@ export const routes: Routes = [
     children: [
       { path: 'recognition', component: RecognitionComponent },
       { path: 'admin', component: AdminComponent },
-      { path: '', redirectTo: 'recognition', pathMatch: 'full' }
+      { path: '', redirectTo: 'recognition', pathMatch: 'full' },
+      { path: 'map', component: MapComponent }
     ]
   },
   { path: '**', redirectTo: '' }
