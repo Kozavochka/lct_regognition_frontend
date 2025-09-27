@@ -16,9 +16,8 @@ export class RecognitionComponent {
   ];
 
   showModal = false;
-
-  handleFile(file: Blob) {
-    console.log('Готовый файл для отправки', file);
+  handleFile(res: any) {
+    console.log('Ответ от API:', res);
     this.showModal = false;
   }
 }

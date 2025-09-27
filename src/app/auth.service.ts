@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
+
   register(username: string, password: string, re_password: string): Observable<any> {
     return this.http.post('/auth/users/', { username, password, re_password });
   }
@@ -15,7 +16,7 @@ export class AuthService {
   }
 
   refreshToken(refresh: string): Observable<any> {
-    return this.http.post('/auth/jwt/refresh/', { refresh });
+    return this.http.post('auth/jwt/refresh/', { refresh });
   }
 
   logout(refresh: string): Observable<any> {

@@ -25,7 +25,14 @@
     </div>
     <div class="modal-footer">
       <button class="cancel-btn" (click)="close.emit()">Отмена</button>
-      <button class="submit-btn" [disabled]="!!errorMessage || !croppedImage" (click)="submit()">Отправить</button>
+      <button class="submit-btn"
+              type="button"
+              (click)="submit()"
+              [disabled]="isUploading || !!errorMessage">
+        {{ isUploading ? 'Загрузка...' : 'Отправить' }}
+      </button>
+
+
     </div>
   </div>
 </div>

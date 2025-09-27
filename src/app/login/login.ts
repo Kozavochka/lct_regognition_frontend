@@ -24,8 +24,8 @@ export class LoginComponent {
     this.auth.login(this.username, this.password).subscribe({
       next: (res: any) => {
         if (res?.access) {
-          localStorage.setItem('access_token', res.access);
-          localStorage.setItem('refresh_token', res.refresh);
+          localStorage.setItem('access', res.access);
+          localStorage.setItem('refresh', res.refresh);
           this.router.navigate(['/recognition']);
         } else {
           this.errorMessage = 'Неверный логин или пароль';

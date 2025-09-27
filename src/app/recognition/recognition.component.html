@@ -1,5 +1,5 @@
 <div class="recognition-header">
-  <h2>Распознавание зданий</h2>
+  <h2>История</h2>
   <button class="upload-btn" (click)="showModal = true">Загрузить фотоматериалы</button>
 </div>
 
@@ -8,12 +8,20 @@
     <tr>
       <th>№</th>
       <th>Дата загрузки</th>
+      <th>Фото</th>
+      <th>Адрес</th>
+      <th>Координаты</th>
+        <th>Статус</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let row of data">
       <td>{{ row.id }}</td>
       <td>{{ row.date }}</td>
+      <td>1232</td>
+      <td>213</td>
+      <td><a href="">53.213 53.553</a></td>
+      <td>Готово|в обработка</td>
     </tr>
   </tbody>
 </table>
@@ -22,5 +30,6 @@
 <app-upload-modal
   *ngIf="showModal"
   (close)="showModal = false"
-  (fileReady)="handleFile($event)">
+  (uploaded)="handleFile($event)">
 </app-upload-modal>
+
