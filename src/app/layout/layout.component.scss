@@ -37,7 +37,10 @@
     cursor: pointer;
     font-weight: 600;
     font-size: 14px;
-    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 
     &.request {
       width: 163px;
@@ -51,10 +54,11 @@
       color: #fff;
     }
 
-    &:hover {
-      opacity: 0.85;
+    &.active {
+      outline: 3px solid #000; /* подсветка активного круга */
     }
   }
+
 
   .profile-circle {
     width: 100px;

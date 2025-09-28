@@ -2,23 +2,23 @@
 <div class="recognition-container">
   <div class="recognition-header">
     <h2>История поиска по фотографиям</h2>
-    <button class="upload-btn" (click)="showModal = true">Загрузить фотоматериалы</button>
   </div>
 
   <table class="data-table">
     <thead>
       <tr>
+        <th>Выбрать</th>
         <th>№</th>
         <th>Дата загрузки</th>
         <th>Фото</th>
         <th>Адрес</th>
         <th>Координаты</th>
         <th>Статус</th>
-        <th>Выбрать</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let row of data">
+        <td><input type="checkbox" [(ngModel)]="row.selected" /></td>
         <td>{{ row.id }}</td>
         <td>{{ row.date }}</td>
         <td>{{ row.photo_url || 'img' }}</td>
@@ -29,7 +29,6 @@
           </a>
         </td>
         <td>{{ row.status }}</td>
-        <td><input type="checkbox" [(ngModel)]="row.selected" /></td>
       </tr>
     </tbody>
   </table>

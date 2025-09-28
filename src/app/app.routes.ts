@@ -5,6 +5,7 @@ import { RecognitionComponent } from './recognition/recognition.component';
 import { AdminComponent } from './admin/admin.component';
 import {MapComponent} from './map/map.component'
 import { AuthGuard } from './auth.guard';
+import { RequestComponent } from './request/request.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,7 +16,8 @@ export const routes: Routes = [
       { path: 'recognition', component: RecognitionComponent },
       { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
       { path: '', redirectTo: 'recognition', pathMatch: 'full' },
-      { path: 'map', component: MapComponent }
+      { path: 'map', component: MapComponent },
+      { path: 'request', component: RequestComponent }
     ]
   },
   { path: '**', redirectTo: '' }

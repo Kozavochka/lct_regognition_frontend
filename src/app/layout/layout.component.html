@@ -9,9 +9,9 @@
     </div>
 
     <div class="header-actions">
-      <button class="header-btn request">Запрос</button>
-      <button class="header-btn history" routerLink="/recognition">История запросов</button>
-      <div class="profile-circle">{{ usernameFirstLetter }}</div>
+    <a class="header-btn request" [class.active]="activePage === 'request'" routerLink="/request">Запрос</a>
+    <a class="header-btn history" [class.active]="activePage === 'recognition'" routerLink="/recognition">История<br />запросов</a>
+    <div class="profile-circle">{{ usernameFirstLetter }}</div>
     </div>
   </header>
 

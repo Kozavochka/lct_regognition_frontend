@@ -13,11 +13,10 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
-// Прокси для API, чтобы избежать CORS
 app.use(
   '/api',
   createProxyMiddleware({
-    target: 'http://vetcity.local.getwell.test:8101',
+    target: 'http://localhost:8000',
     changeOrigin: true,
     secure: false,
   })

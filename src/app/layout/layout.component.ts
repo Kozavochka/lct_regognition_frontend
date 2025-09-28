@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd, Event } from '@angular/router';
 import { AuthService } from '../auth.service'; 
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-layout',
@@ -12,8 +13,9 @@ import { AuthService } from '../auth.service';
 })
 export class LayoutComponent implements OnInit {
   usernameFirstLetter = '';
+  activePage: 'request' | 'recognition' | null = null;
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.auth.me().subscribe({
@@ -26,10 +28,21 @@ export class LayoutComponent implements OnInit {
         this.usernameFirstLetter = '?';
       }
     });
+
+    this.router.events
+      .pipe(filter((e: Event): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe((e: NavigationEnd) => {
+        if (e.url.startsWith('/request')) {
+          this.activePage = 'request';
+        } else if (e.url.startsWith('/recognition')) {
+          this.activePage = 'recognition';
+        } else {
+          this.activePage = null;
+        }
+      });
   }
 
   logout() {
-    // если у тебя есть refresh в localStorage
     const refresh = localStorage.getItem('refresh_token');
     if (refresh) {
       this.auth.logout(refresh).subscribe({
