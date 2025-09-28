@@ -1,14 +1,18 @@
 <div class="layout">
   <header class="header">
-    <nav class="nav">
-      <a routerLink="/recognition" routerLinkActive="active">Распознавание зданий</a>
-      <span class="divider"></span>
-      <a routerLink="/admin" routerLinkActive="active">Админ панель</a>
-      <span class="divider"></span>
-      <a routerLink="/map" routerLinkActive="active">Карта</a>
-      <span class="divider"></span>
-      <a (click)="logout()">Выйти</a>
-    </nav>
+    <div class="header-left">
+      <h1>
+        ЛИДЕРЫ<br />
+        ЦИФРОВЫХ<br />
+        ТРАНСФОРМАЦИЙ
+      </h1>
+    </div>
+
+    <div class="header-actions">
+      <button class="header-btn request">Запрос</button>
+      <button class="header-btn history" routerLink="/recognition">История запросов</button>
+      <div class="profile-circle">{{ usernameFirstLetter }}</div>
+    </div>
   </header>
 
   <main class="content">

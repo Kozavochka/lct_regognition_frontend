@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../auth.service';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../auth.service'; 
 
 @Component({
   selector: 'app-layout',
@@ -10,20 +10,41 @@ import { AuthService } from '../auth.service';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
-export class LayoutComponent {
-  constructor(private auth: AuthService, private router: Router) {}
+export class LayoutComponent implements OnInit {
+  usernameFirstLetter = '';
 
-  logout() {
-    const refresh = localStorage.getItem('refresh_token') || '';
-    this.auth.logout(refresh).subscribe({
-      next: () => {
-        localStorage.clear();
-        this.router.navigate(['/login']);
+  constructor(private auth: AuthService) {}
+
+  ngOnInit() {
+    this.auth.me().subscribe({
+      next: (res: any) => {
+        if (res?.username) {
+          this.usernameFirstLetter = res.username.charAt(0).toUpperCase();
+        }
       },
       error: () => {
-        localStorage.clear();
-        this.router.navigate(['/login']);
+        this.usernameFirstLetter = '?';
       }
     });
+  }
+
+  logout() {
+    // если у тебя есть refresh в localStorage
+    const refresh = localStorage.getItem('refresh_token');
+    if (refresh) {
+      this.auth.logout(refresh).subscribe({
+        next: () => {
+          localStorage.clear();
+          location.href = '/login';
+        },
+        error: () => {
+          localStorage.clear();
+          location.href = '/login';
+        }
+      });
+    } else {
+      localStorage.clear();
+      location.href = '/login';
+    }
   }
 }
