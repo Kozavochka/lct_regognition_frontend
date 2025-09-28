@@ -26,7 +26,19 @@ export class LoginComponent {
         if (res?.access) {
           localStorage.setItem('access', res.access);
           localStorage.setItem('refresh', res.refresh);
-          this.router.navigate(['/recognition']);
+
+          this.auth.me().subscribe({
+            next: (user) => {
+                console.log('Пользователь подтверждён:', user);
+                this.router.navigate(['/recognition']);
+            },
+            error: () => {
+              console.error('Токен невалиден');
+              localStorage.clear();
+              this.router.navigate(['/login']);
+            }
+          });
+        
         } else {
           this.errorMessage = 'Неверный логин или пароль';
         }

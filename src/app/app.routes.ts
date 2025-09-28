@@ -4,6 +4,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { RecognitionComponent } from './recognition/recognition.component';
 import { AdminComponent } from './admin/admin.component';
 import {MapComponent} from './map/map.component'
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -12,7 +13,7 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'recognition', component: RecognitionComponent },
-      { path: 'admin', component: AdminComponent },
+      { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
       { path: '', redirectTo: 'recognition', pathMatch: 'full' },
       { path: 'map', component: MapComponent }
     ]

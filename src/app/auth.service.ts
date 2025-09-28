@@ -22,4 +22,9 @@ export class AuthService {
   logout(refresh: string): Observable<any> {
     return this.http.post('/auth/jwt/logout/', { refresh });
   }
+
+  me() {
+    return this.http.get('/auth/me/');
+  }
+
 }
