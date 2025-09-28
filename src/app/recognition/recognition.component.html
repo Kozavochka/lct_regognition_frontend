@@ -11,16 +11,21 @@
       <th>Фото</th>
       <th>Адрес</th>
       <th>Координаты</th>
-        <th>Статус</th>
+      <th>Статус</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let row of data">
       <td>{{ row.id }}</td>
       <td>{{ row.date }}</td>
-      <td>1232</td>
-      <td>213</td>
-      <td><a href="">53.213 53.553</a></td>
+      <td>{{ row.photo_url }}</td>
+      <td>{{ row.address }}</td>
+      <td>
+        <a [routerLink]="['/map']" [queryParams]="{ lat: row.lat, lon: row.lot }">
+          {{ row.lat }} {{ row.lot }}
+        </a>
+      </td>
+
       <td>Готово|в обработка</td>
     </tr>
   </tbody>

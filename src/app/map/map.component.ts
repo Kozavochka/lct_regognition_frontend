@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-map',
@@ -13,7 +14,7 @@ export class MapComponent implements OnInit {
   private isBrowser: boolean;
   selectedCoords: { lat: number; lng: number } | null = null;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,  private route: ActivatedRoute) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
@@ -36,6 +37,18 @@ export class MapComponent implements OnInit {
           .setContent(`Lat: ${e.latlng.lat.toFixed(5)}, Lng: ${e.latlng.lng.toFixed(5)}`)
           .openOn(this.map);
       });
+
+    this.route.queryParams.subscribe(params => {
+      const lat = parseFloat(params['lat']);
+      const lon = parseFloat(params['lon']);
+
+      if (lat && lon) {
+        console.log('lat lot');
+        const marker = L.marker([lat, lon]).addTo(this.map);
+        this.map.setView([lat, lon], 15);
+        marker.bindPopup(`Выбранная точка: ${lat}, ${lon}`).openPopup();
+      }
+    });
     }
   }
 }
