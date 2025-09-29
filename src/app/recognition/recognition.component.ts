@@ -4,6 +4,7 @@ import { UploadModalComponent } from '../upload-modal/upload-modal.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 interface RecognitionRow {
   id: number;
@@ -14,6 +15,7 @@ interface RecognitionRow {
   lon: number | null;
   address?: string;
   selected?: boolean;
+  preview_url?: string;   // превью
 }
 
 @Component({
@@ -33,7 +35,10 @@ export class RecognitionComponent implements OnInit {
   lastPage = 1;
   total = 0;
 
-  constructor(private http: HttpClient) {}
+  selectedImage: string | null = null;
+
+  constructor(private http: HttpClient, private router: Router) {}
+
 
   handleFile(res: any) {
     console.log('Ответ от API:', res);
@@ -72,9 +77,10 @@ export class RecognitionComponent implements OnInit {
           date: new Date(item.created_at).toLocaleDateString('ru-RU'),
           status: item.status === 'done' ? 'Готово' : item.status,
           photo_url: item.image?.file_path || '',
+          preview_url: item.image?.preview_url || '',
           lat: item.lat,
           lon: item.lon,
-          selected: false
+          selected: false,
         }));
 
         for (const row of rows) {
@@ -93,5 +99,43 @@ export class RecognitionComponent implements OnInit {
     const first = this.data.find(d => d.selected && d.lat != null && d.lon != null);
     if (!first) return {};
     return { lat: first.lat, lon: first.lon };
+  }
+
+  allSelectedQuery() {
+    const selected = this.data
+      .filter(d => d.selected && d.lat != null && d.lon != null)
+      .map(d => ({
+        id: d.id,
+        lat: d.lat,
+        lon: d.lon,
+        address: d.address
+      }));
+
+    if (!selected.length) return {};
+    return { points: JSON.stringify(selected) }; // сериализуем в строку
+  }
+
+  goToMap() {
+    const selected = this.data
+      .filter(d => d.selected && d.lat != null && d.lon != null)
+      .map(d => ({
+        id: d.id,
+        lat: d.lat,
+        lon: d.lon,
+        address: d.address
+      }));
+
+    if (selected.length) {
+      this.router.navigate(['/map'], { state: { points: selected } });
+    }
+  }
+
+
+  openImage(url: string) {
+    this.selectedImage = url;
+  }
+
+  closeImage() {
+    this.selectedImage = null;
   }
 }

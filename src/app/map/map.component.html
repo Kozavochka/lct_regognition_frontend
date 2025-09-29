@@ -1,8 +1,13 @@
 <div class="map-wrapper">
-  <div class="info-panel" *ngIf="selectedCoords">
-    <h3>Координаты</h3>
-    <p>Lat: {{ selectedCoords.lat.toFixed(5) }}</p>
-    <p>Lng: {{ selectedCoords.lng.toFixed(5) }}</p>
+  <div class="info-panel" *ngIf="selectedPoints.length">
+    <h3>Выбранные точки</h3>
+    <ul>
+      <li *ngFor="let p of selectedPoints">
+        <strong>ID {{ p.id }}</strong><br />
+        {{ p.address }}<br />
+        ({{ p.lat.toFixed(5) }}, {{ p.lon.toFixed(5) }})
+      </li>
+    </ul>
   </div>
   <div id="map"></div>
 </div>

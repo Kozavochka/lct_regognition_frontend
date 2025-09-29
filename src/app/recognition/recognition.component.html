@@ -21,13 +21,26 @@
         <td>{{ row.id }}</td>
         <td>{{ row.date }}</td>
         <td>
-          <img *ngIf="row.photo_url" [src]="row.photo_url" alt="Фото" width="60" />
+          <img
+            *ngIf="row.preview_url"
+            [src]="row.preview_url"
+            alt="Фото"
+            width="60"
+            loading="lazy"
+            (click)="openImage(row.preview_url)"
+            style="cursor: zoom-in"
+          />
         </td>
+
+        <!-- Модалка -->
+        <div class="image-modal" *ngIf="selectedImage" (click)="closeImage()">
+          <img [src]="selectedImage" alt="Полный размер" />
+        </div>
+
+
         <td>{{ row.address || '—' }}</td>
         <td>
-          <a [routerLink]="['/map']" [queryParams]="{ lat: row.lat, lon: row.lon }">
-            {{ row.lat }}{{ row.lat && row.lon ? ', ' : '' }}{{ row.lon }}
-          </a>
+          {{ row.lat }}{{ row.lat && row.lon ? ', ' : '' }}{{ row.lon }}
         </td>
         <td>{{ row.status }}</td>
       </tr>
@@ -59,9 +72,9 @@
       </button>
     </div>
 
-    <a class="map-link" [routerLink]="['/map']" [queryParams]="firstSelectedQuery()">
-      Отобразить на карте
-    </a>
+    <a class="map-link" (click)="goToMap()">Отобразить на карте</a>
+
+
   </div>
 </div>
 
