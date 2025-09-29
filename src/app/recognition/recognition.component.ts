@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UploadModalComponent } from '../upload-modal/upload-modal.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // ← добавляем
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 interface RecognitionRow {
   id: number;
@@ -10,7 +11,7 @@ interface RecognitionRow {
   photo_url: string;
   status: string;
   lat: number | null;
-  lot: number | null;
+  lon: number | null;
   address?: string;
   selected?: boolean;
 }
@@ -18,17 +19,21 @@ interface RecognitionRow {
 @Component({
   selector: 'app-recognition',
   standalone: true,
-  imports: [CommonModule, UploadModalComponent, RouterModule, FormsModule], // ← добавляем сюда
+  imports: [CommonModule, UploadModalComponent, RouterModule, FormsModule, HttpClientModule],
   templateUrl: './recognition.component.html',
   styleUrl: './recognition.component.scss'
 })
 export class RecognitionComponent implements OnInit {
-  data: RecognitionRow[] = [
-    { id: 1, date: '2025-09-22', status: 'Готово', photo_url: 'photo', lat: 55.661346, lot: 37.55602 },
-    { id: 2, date: '2025-09-21', status: 'В обработке', photo_url: 'photo', lat: null, lot: null }
-  ];
-
+  data: RecognitionRow[] = [];
   showModal = false;
+
+  // Пагинация
+  currentPage = 1;
+  pageSize = 5;
+  lastPage = 1;
+  total = 0;
+
+  constructor(private http: HttpClient) {}
 
   handleFile(res: any) {
     console.log('Ответ от API:', res);
@@ -47,19 +52,46 @@ export class RecognitionComponent implements OnInit {
     }
   }
 
-  async ngOnInit() {
-    for (const row of this.data) {
-      if (row.lat && row.lot) {
-        row.address = await this.getAddress(row.lat, row.lot);
-      } else {
-        row.address = '—';
-      }
-    }
+  ngOnInit() {
+    this.loadPage(1);
+  }
+
+  loadPage(page: number) {
+    const token = localStorage.getItem('access');
+    this.http
+      .get<any>(`api/user/image-locations/?page=${page}&page_size=${this.pageSize}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    })
+      .subscribe(async (res) => {
+        this.currentPage = res.meta.current_page;
+        this.lastPage = res.meta.last_page;
+        this.total = res.meta.total;
+
+        const rows: RecognitionRow[] = res.data.map((item: any) => ({
+          id: item.id,
+          date: new Date(item.created_at).toLocaleDateString('ru-RU'),
+          status: item.status === 'done' ? 'Готово' : item.status,
+          photo_url: item.image?.file_path || '',
+          lat: item.lat,
+          lon: item.lon,
+          selected: false
+        }));
+
+        for (const row of rows) {
+          if (row.lat && row.lon) {
+            row.address = await this.getAddress(row.lat, row.lon);
+          } else {
+            row.address = '—';
+          }
+        }
+
+        this.data = rows;
+      });
   }
 
   firstSelectedQuery() {
-    const first = this.data.find(d => d.selected && d.lat != null && d.lot != null);
+    const first = this.data.find(d => d.selected && d.lat != null && d.lon != null);
     if (!first) return {};
-    return { lat: first.lat, lon: first.lot };
+    return { lat: first.lat, lon: first.lon };
   }
 }

@@ -1,4 +1,3 @@
-<!-- recognition.component.html -->
 <div class="recognition-container">
   <div class="recognition-header">
     <h2>История поиска по фотографиям</h2>
@@ -21,11 +20,13 @@
         <td><input type="checkbox" [(ngModel)]="row.selected" /></td>
         <td>{{ row.id }}</td>
         <td>{{ row.date }}</td>
-        <td>{{ row.photo_url || 'img' }}</td>
+        <td>
+          <img *ngIf="row.photo_url" [src]="row.photo_url" alt="Фото" width="60" />
+        </td>
         <td>{{ row.address || '—' }}</td>
         <td>
-          <a [routerLink]="['/map']" [queryParams]="{ lat: row.lat, lon: row.lot }">
-            {{ row.lat }}{{ row.lat && row.lot ? ', ' : '' }}{{ row.lot }}
+          <a [routerLink]="['/map']" [queryParams]="{ lat: row.lat, lon: row.lon }">
+            {{ row.lat }}{{ row.lat && row.lon ? ', ' : '' }}{{ row.lon }}
           </a>
         </td>
         <td>{{ row.status }}</td>
@@ -35,11 +36,32 @@
 
   <div class="table-footer">
     <div class="pagination">
-      <button class="page-btn active">1</button>
-      <button class="page-btn">2</button>
-      <button class="page-btn">3</button>
+      <button
+        class="page-btn"
+        [disabled]="currentPage === 1"
+        (click)="loadPage(currentPage - 1)">
+        «
+      </button>
+
+      <button
+        *ngFor="let page of [].constructor(lastPage); let i = index"
+        class="page-btn"
+        [class.active]="currentPage === i + 1"
+        (click)="loadPage(i + 1)">
+        {{ i + 1 }}
+      </button>
+
+      <button
+        class="page-btn"
+        [disabled]="currentPage === lastPage"
+        (click)="loadPage(currentPage + 1)">
+        »
+      </button>
     </div>
-    <a class="map-link" [routerLink]="['/map']" [queryParams]="firstSelectedQuery()">Отобразить на карте</a>
+
+    <a class="map-link" [routerLink]="['/map']" [queryParams]="firstSelectedQuery()">
+      Отобразить на карте
+    </a>
   </div>
 </div>
 

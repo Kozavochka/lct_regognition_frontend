@@ -14,9 +14,9 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor])
+      withInterceptors([authInterceptor, apiPrefixInterceptor])
     ),
-    provideHttpClient(withInterceptors([apiPrefixInterceptor]))
+
 
   ]
 };

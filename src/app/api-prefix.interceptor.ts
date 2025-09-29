@@ -1,10 +1,17 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const apiPrefixInterceptor: HttpInterceptorFn = (req, next) => {
-  // Если URL относительный (не начинается с http), добавляем /api
-  if (!/^https?:\/\//i.test(req.url)) {
-    const apiReq = req.clone({ url: `/api${req.url.startsWith('/') ? '' : '/'}${req.url}` });
-    return next(apiReq);
+  // если URL уже абсолютный (http/https) — не трогаем
+  if (/^https?:\/\//i.test(req.url)) {
+    return next(req);
   }
-  return next(req);
+
+  // если начинается с / — добавляем /api
+  if (req.url.startsWith('/')) {
+    return next(req.clone({ url: `/api${req.url}` }));
+  }
+
+  // если относительный без / — тоже добавляем
+  return next(req.clone({ url: `/api/${req.url}` }));
 };
+
