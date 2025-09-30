@@ -14,6 +14,7 @@ import { filter } from 'rxjs/operators';
 export class LayoutComponent implements OnInit {
   usernameFirstLetter = '';
   activePage: 'request' | 'recognition' | null = null;
+  showMenu = false; // 👈 флаг для меню
 
   constructor(private auth: AuthService, private router: Router) {}
 
@@ -42,8 +43,12 @@ export class LayoutComponent implements OnInit {
       });
   }
 
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
+  }
+
   logout() {
-    const refresh = localStorage.getItem('refresh_token');
+    const refresh = localStorage.getItem('refresh');
     if (refresh) {
       this.auth.logout(refresh).subscribe({
         next: () => {
@@ -61,3 +66,4 @@ export class LayoutComponent implements OnInit {
     }
   }
 }
+

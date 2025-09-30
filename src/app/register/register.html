@@ -18,11 +18,12 @@
         {{ loading ? 'Загрузка...' : 'Зарегистрироваться' }}
       </button>
 
-      <div class="register-link">
-        <a routerLink="/login">Уже есть аккаунт? Войти</a>
-      </div>
 
       <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
     </form>
+    
+    <div class="register-link">
+    <a routerLink="/login">Уже есть аккаунт? Войти</a>
+    </div>
   </div>
 </div>
