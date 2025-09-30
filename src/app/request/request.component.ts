@@ -55,7 +55,7 @@ export class RequestComponent {
       next: (res) => {
         this.isUploading = false;
         console.log('Ответ от API:', res);
-        alert('Фотографии успешно отправлены');
+        // alert('Фотографии успешно отправлены');  
         this.photos = []; // очистим список после отправки
       },
       error: (err) => {
