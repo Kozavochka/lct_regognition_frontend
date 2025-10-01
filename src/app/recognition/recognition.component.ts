@@ -138,4 +138,23 @@ export class RecognitionComponent implements OnInit {
   closeImage() {
     this.selectedImage = null;
   }
+
+  deleteRow(id: number) {
+    const token = localStorage.getItem('access');
+    if (!confirm('Удалить запись №' + id + '?')) return;
+
+    this.http.delete(`api/image-locations/${id}/`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    }).subscribe({
+      next: () => {
+        // после удаления обновляем текущую страницу
+        this.loadPage(this.currentPage);
+      },
+      error: (err) => {
+        console.error('Ошибка при удалении', err);
+        alert('Не удалось удалить запись');
+      }
+    });
+  }
+
 }

@@ -18,7 +18,7 @@ export class MapComponent implements AfterViewInit {
   selectedPoints: { id: number; lat: number; lon: number; address: string }[] = [];
   private markers: Marker[] = [];
 
-  readonly styleUrl = 'http://51.250.115.228:8081/styles/default/style.json';
+  readonly styleUrl = 'http://51.250.115.228:8081/styles/positron/style.json';
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -62,7 +62,7 @@ export class MapComponent implements AfterViewInit {
     const bounds = new maplibregl.LngLatBounds();
 
     this.selectedPoints.forEach(p => {
-      const marker = new maplibregl.Marker()
+      const marker = new maplibregl.Marker({ color: '#e74c3c', anchor: 'bottom' })
         .setLngLat([p.lon, p.lat])
         .setPopup(new maplibregl.Popup().setHTML(`<b>ID:</b> ${p.id}<br>${p.address || ''}`))
         .addTo(this.map);
