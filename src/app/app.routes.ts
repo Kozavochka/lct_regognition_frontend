@@ -16,7 +16,7 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'recognition', component: RecognitionComponent },
-      { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
+      { path: 'admin', component: AdminComponent },
       { path: '', redirectTo: 'recognition', pathMatch: 'full' },
       { path: 'map', component: MapComponent },
       { path: 'request', component: RequestComponent }

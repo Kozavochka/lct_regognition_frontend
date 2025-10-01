@@ -13,8 +13,9 @@ import { filter } from 'rxjs/operators';
 })
 export class LayoutComponent implements OnInit {
   usernameFirstLetter = '';
-  activePage: 'request' | 'recognition' | null = null;
-  showMenu = false; // 👈 флаг для меню
+  activePage: 'request' | 'recognition' | 'admin' | null = null;
+
+  showMenu = false; //флаг для меню
 
   constructor(private auth: AuthService, private router: Router) {}
 
@@ -37,7 +38,11 @@ export class LayoutComponent implements OnInit {
           this.activePage = 'request';
         } else if (e.url.startsWith('/recognition')) {
           this.activePage = 'recognition';
-        } else {
+        }
+        else if (e.url.startsWith('/admin')) {
+          this.activePage = 'admin';
+        }
+         else {
           this.activePage = null;
         }
       });

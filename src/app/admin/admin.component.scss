@@ -1,49 +1,68 @@
-.admin-header {
+.users-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+  flex-direction: column;
+  gap: 16px;
 
   h2 {
-    font-family: 'Karla', sans-serif;
-    font-weight: 700;
-    color: #6a0dad;
+    font-size: 28px;
+    font-weight: 600;
     margin: 0;
-  }
-
-  .upload-btn {
-    font-family: 'Karla', sans-serif;
-    background-color: #6a0dad;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(106, 13, 173, 0.3);
-    transition: background 0.2s, box-shadow 0.2s;
-
-    &:hover {
-      background-color: #580b9e;
-      box-shadow: 0 3px 6px rgba(106, 13, 173, 0.4);
-    }
   }
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: 'Crimson Text', serif;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+  thead {
+    background: #d9d9d9;
+    th {
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+      color: #000;
+    }
   }
 
-  th {
-    background-color: #f3e8ff;
-    text-align: left;
-    font-family: 'Karla', sans-serif;
-    font-weight: 600;
-    color: #333;
+  tbody {
+    tr {
+      border-bottom: 1px solid #eee;
+
+      &:hover {
+        background: #f9f9f9;
+      }
+
+      td {
+        padding: 12px;
+        font-size: 14px;
+        color: #333;
+      }
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+
+  .page-btn {
+    min-width: 32px;
+    height: 32px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &.active {
+      background: #5d5d5d;
+      color: #fff;
+      border-color: #5d5d5d;
+    }
   }
 }
